@@ -8,7 +8,14 @@ form.addEventListener('submit', async (event) => {
   const email = form.email.value.trim()
   const mensagem = form.mensagem.value.trim()
 
+  // Validação extra (opcional)
+  if (!nome || !email || !mensagem) {
+    status.textContent = 'Por favor, preencha todos os campos.'
+    return
+  }
+
   status.textContent = 'Enviando...'
+  form.querySelector('button[type="submit"]').disabled = true
 
   try {
     const response = await fetch(
@@ -32,5 +39,7 @@ form.addEventListener('submit', async (event) => {
   } catch (error) {
     status.textContent = 'Erro de conexão, tente novamente.'
     console.error(error)
+  } finally {
+    form.querySelector('button[type="submit"]').disabled = false
   }
 })

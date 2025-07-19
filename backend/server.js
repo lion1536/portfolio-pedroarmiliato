@@ -1,20 +1,28 @@
 import express from 'express'
 import nodemailer from 'nodemailer'
+import dotenv from 'dotenv'
 import cors from 'cors'
+
+dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
-// Configurar CORS para aceitar requisições apenas do seu frontend
+// ✅ Middleware CORS aceitando o domínio do GitHub Pages
 app.use(
   cors({
-    origin: ['https://lion1536.github.io'],
+    origin: 'https://lion1536.github.io',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
   }),
 )
 
 app.use(express.json())
 
-// Rota para receber o formulário
+app.get('/api/contato', (req, res) => {
+  res.json({ message: 'Rota GET /api/contato está funcionando!' })
+})
+
 app.post('/api/contato', async (req, res) => {
   const { nome, email, mensagem } = req.body
 
@@ -22,8 +30,7 @@ app.post('/api/contato', async (req, res) => {
     return res.status(400).json({ error: 'Preencha todos os campos' })
   }
 
-  // Configurar transporte SMTP (exemplo com Gmail)
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
