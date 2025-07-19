@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paleta de Cores - Pedro Armiliato</title>
+    <link rel="stylesheet" href="paleta.css" />
+  </head>
+  <body>
+    <header tabindex="1">
+      <h1>Paleta de Cores</h1>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="sobre.html">Sobre Mim</a>
+        <a href="portfolio.html">Portfólio</a>
+        <a href="contato.html">Contato</a>
+        <a href="paleta.html" aria-current="page">Paleta de Cores</a>
+        <a href="mapa.html">Mapa do Site</a>
+        <a href="documentacao.html">Documentação</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section>
+        <h2>Paleta de Cores Usada no Portfólio</h2>
+        <p class="intro">
+          Esta é a paleta oficial usada em todo o portfólio para manter a
+          identidade visual consistente.
+        </p>
+
+        <div class="paleta-cores">
+          <!-- Cor 1 -->
+          <div class="cor">
+            <div
+              class="cor-color"
+              style="background-color: var(--accent)"
+            ></div>
+            <p class="cor-nome">Verde Vibrante</p>
+            <p class="cor-hex">#03c988</p>
+            <button class="copy-btn" data-hex="#03c988">Copiar</button>
+          </div>
+
+          <!-- Cor 2 -->
+          <div class="cor">
+            <div class="cor-color" style="background-color: #1abc9c"></div>
+            <p class="cor-nome">Azul Vivo</p>
+            <p class="cor-hex">#1abc9c</p>
+            <button class="copy-btn" data-hex="#1abc9c">Copiar</button>
+          </div>
+
+          <!-- Cor 3 -->
+          <div class="cor">
+            <div class="cor-color" style="background-color: var(--bg)"></div>
+            <p class="cor-nome">Preto Profundo</p>
+            <p class="cor-hex">#121212</p>
+            <button class="copy-btn" data-hex="#121212">Copiar</button>
+          </div>
+
+          <!-- Cor 4 -->
+          <div class="cor">
+            <div class="cor-color" style="background-color: var(--text)"></div>
+            <p class="cor-nome">Cinza Claro</p>
+            <p class="cor-hex">#f5f5f5</p>
+            <button class="copy-btn" data-hex="#f5f5f5">Copiar</button>
+          </div>
+
+          <!-- Cor 5 -->
+          <div class="cor">
+            <div
+              class="cor-color"
+              style="background-color: var(--highlight)"
+            ></div>
+            <p class="cor-nome">Verde Musgo</p>
+            <p class="cor-hex">#64ab50</p>
+            <button class="copy-btn" data-hex="#64ab50">Copiar</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Pedro Armiliato. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+      document.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const hex = btn.getAttribute('data-hex')
+          navigator.clipboard.writeText(hex).then(() => {
+            btn.textContent = 'Copiado!'
+            btn.disabled = true
+            btn.classList.add('copiado')
+            setTimeout(() => {
+              btn.textContent = 'Copiar'
+              btn.disabled = false
+              btn.classList.remove('copiado')
+            }, 1500)
+          })
+        })
+      })
+    </script>
+  </body>
+</html>
