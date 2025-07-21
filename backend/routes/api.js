@@ -24,7 +24,7 @@ router.post("/api/contato", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: `"${nome}" <${email}>`,
+      from: `"${nome}" ${email}`,
       to: process.env.EMAIL_USER,
       subject: "Nova mensagem do formulário de contato",
       text: mensagem,
