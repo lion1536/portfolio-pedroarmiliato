@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 // Endpoint GET
-router.get("/api/contato", (req, res) => {
+router.get("/contato", (req, res) => {
   res.json({ message: "Rota GET /api/contato está funcionando!" });
 });
 
 // Endpoint POST
-router.post("/api/contato", async (req, res) => {
+router.post("/contato", async (req, res) => {
   const { nome, email, mensagem } = req.body;
 
   if (!nome || !email || !mensagem) {
