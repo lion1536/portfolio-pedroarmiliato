@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
+require("dotenv").config();
 
-// Endpoint GET
 router.get("/contato", (req, res) => {
   res.json({ message: "Rota GET /api/contato está funcionando!" });
 });
 
-// Endpoint POST
 router.post("/contato", async (req, res) => {
   const { nome, email, mensagem } = req.body;
 
@@ -19,21 +18,30 @@ router.post("/contato", async (req, res) => {
     service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.PASSWORD_USER,
     },
+  });
+
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error("Erro ao verificar conexão SMTP:", error);
+    } else {
+      console.log("Servidor SMTP está pronto para enviar e-mails");
+    }
   });
 
   try {
     await transporter.sendMail({
-      from: `"${nome}" ${email}`,
+      from: `${nome} <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
+      replyTo: email,
       subject: "Nova mensagem do formulário de contato",
-      text: mensagem,
+      text: `Mensagem de: ${nome} (${email})\n\n${mensagem}`,
     });
 
     res.json({ message: "Mensagem enviada com sucesso!" });
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao enviar e-mail:", error);
     res.status(500).json({ error: "Erro ao enviar mensagem" });
   }
 });
