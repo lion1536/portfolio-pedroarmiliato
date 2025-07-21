@@ -28,7 +28,7 @@ form.addEventListener("submit", async (event) => {
         body: JSON.stringify({ nome, email, mensagem }),
       }
     );
-
+    console.log(response);
     if (response.ok) {
       view.textContent = "Mensagem enviada com sucesso!";
       form.reset();
