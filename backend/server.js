@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // ✅ Middleware CORS aceitando o domínio do GitHub Pages
 app.use(
   cors({
-    origin: "https://lion1536.github.io",
+    origin: "*",
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
     credentials: false,
