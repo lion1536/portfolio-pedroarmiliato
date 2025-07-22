@@ -15,10 +15,20 @@ form.addEventListener('submit', async (event) => {
   const nome = form.nome.value.trim()
   const email = form.email.value.trim()
   const mensagem = form.mensagem.value.trim()
+  const destinatariosRaw = form.destinatarios.value.trim()
 
   if (!nome || !email || !mensagem) {
-    view.textContent = 'Por favor, preencha todos os campos.'
+    view.textContent = 'Por favor, preencha todos os campos obrigatórios.'
     return
+  }
+
+  // Se houver destinatários, transforma em array de strings sem espaços extras
+  let destinatarios = undefined
+  if (destinatariosRaw) {
+    destinatarios = destinatariosRaw
+      .split(',')
+      .map((email) => email.trim())
+      .filter((email) => email.length > 0)
   }
 
   view.textContent = 'Enviando...'
@@ -32,7 +42,7 @@ form.addEventListener('submit', async (event) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nome, email, mensagem }),
+        body: JSON.stringify({ nome, email, mensagem, destinatarios }),
       },
     )
 
