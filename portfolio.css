@@ -7,7 +7,7 @@
   --highlight: #64ab50;
   --shadow: rgba(0, 0, 0, 0.2);
   --radius: 12px;
-  --font: 'Segoe UI', Tahoma, sans-serif;
+  --font: "Segoe UI", Tahoma, sans-serif;
 }
 
 * {
@@ -156,6 +156,21 @@ a {
 a:hover {
   color: #40f7b8;
   text-decoration: underline;
+}
+
+.foto-perfil {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--cor-primaria);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.foto-perfil:hover {
+  transform: scale(1.05);
 }
 
 /* Responsividade */
