@@ -78,6 +78,7 @@ label {
   color: #555;
 }
 
+/* Inputs e textarea */
 input,
 textarea {
   padding: 0.75rem 1rem;
@@ -87,6 +88,8 @@ textarea {
   font-size: 1rem;
   transition: border-color 0.3s ease;
   resize: vertical;
+  min-width: 100%;
+  box-sizing: border-box;
 }
 
 input:focus,
@@ -96,6 +99,7 @@ textarea:focus {
   box-shadow: 0 0 8px #03c988aa;
 }
 
+/* Botão */
 button {
   margin-top: 2rem;
   padding: 1rem;
@@ -115,12 +119,15 @@ button:focus {
   outline: none;
 }
 
+/* Status mensagem */
 #status {
   margin-top: 1.5rem;
   font-weight: 600;
   text-align: center;
   color: #0d0d0d;
   min-height: 1.5rem;
+  word-wrap: break-word;
+  white-space: pre-wrap; /* mantém quebras de linha */
 }
 
 /* Responsividade */
