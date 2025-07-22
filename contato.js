@@ -1,45 +1,52 @@
-const form = document.getElementById("contatoForm");
-const view = document.getElementById("status");
+const form = document.getElementById('contatoForm')
+const view = document.getElementById('status')
+const textarea = form.mensagem
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+textarea.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault()
+    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+  }
+})
 
-  const nome = form.nome.value.trim();
-  const email = form.email.value.trim();
-  const mensagem = form.mensagem.value.trim();
+form.addEventListener('submit', async (event) => {
+  event.preventDefault()
 
-  // Validação extra (opcional)
+  const nome = form.nome.value.trim()
+  const email = form.email.value.trim()
+  const mensagem = form.mensagem.value.trim()
+
   if (!nome || !email || !mensagem) {
-    view.textContent = "Por favor, preencha todos os campos.";
-    return;
+    view.textContent = 'Por favor, preencha todos os campos.'
+    return
   }
 
-  view.textContent = "Enviando...";
-  form.querySelector('button[type="submit"]').disabled = true;
+  view.textContent = 'Enviando...'
+  form.querySelector('button[type="submit"]').disabled = true
 
   try {
     const response = await fetch(
-      "https://portfolio-pedroarmiliato-production.up.railway.app/api/contato",
+      'https://portfolio-pedroarmiliato-production.up.railway.app/api/contato',
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ nome, email, mensagem }),
-      }
-    );
-    console.log(response);
+      },
+    )
+
     if (response.ok) {
-      view.textContent = "Mensagem enviada com sucesso!";
-      form.reset();
+      view.textContent = 'Mensagem enviada com sucesso!'
+      form.reset()
     } else {
-      const data = await response.json();
-      view.textContent = "Erro: " + (data.error || "Erro ao enviar mensagem");
+      const data = await response.json()
+      view.textContent = 'Erro: ' + (data.error || 'Erro ao enviar mensagem')
     }
   } catch (error) {
-    view.textContent = "Erro de conexão, tente novamente.";
-    console.error(error);
+    view.textContent = 'Erro de conexão, tente novamente.'
+    console.error(error)
   } finally {
-    form.querySelector('button[type="submit"]').disabled = false;
+    form.querySelector('button[type="submit"]').disabled = false
   }
-});
+})
