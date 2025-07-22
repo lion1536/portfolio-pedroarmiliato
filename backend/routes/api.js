@@ -26,16 +26,18 @@ router.post('/contato', async (req, res) => {
       .json({ error: 'Informe ao menos um destinatário válido' })
   }
 
-  // Validar emails destinatários e remover remetente
+  // Validar emails dos destinatários e remover o remetente da lista
   const destinatariosFiltrados = destinatarios
     .filter((email) => validarEmail(email))
     .filter((email) => email.toLowerCase() !== remetente.toLowerCase())
 
   if (destinatariosFiltrados.length === 0) {
-    return res.status(400).json({
-      error:
-        'A lista de destinatários não pode conter somente o email do remetente',
-    })
+    return res
+      .status(400)
+      .json({
+        error:
+          'A lista de destinatários não pode conter somente o email do remetente',
+      })
   }
 
   const transporter = nodemailer.createTransport({

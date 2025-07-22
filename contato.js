@@ -32,7 +32,6 @@ form.addEventListener('submit', async (event) => {
     return
   }
 
-  // Destinatários: se tiver, transforma em array, valida e filtra o remetente
   let destinatarios = []
   if (destinatariosRaw) {
     destinatarios = destinatariosRaw
@@ -40,7 +39,6 @@ form.addEventListener('submit', async (event) => {
       .map((email) => email.trim())
       .filter((email) => email.length > 0)
 
-    // Validar emails dos destinatários
     for (const email of destinatarios) {
       if (!validarEmail(email)) {
         view.textContent = `Email inválido na lista de destinatários: ${email}`
@@ -48,7 +46,7 @@ form.addEventListener('submit', async (event) => {
       }
     }
 
-    // Remover remetente da lista de destinatários para evitar enviar para si mesmo
+    // Remover o remetente da lista para não enviar para si mesmo
     destinatarios = destinatarios.filter(
       (email) => email.toLowerCase() !== remetente.toLowerCase(),
     )
@@ -71,9 +69,7 @@ form.addEventListener('submit', async (event) => {
       'https://portfolio-pedroarmiliato-production.up.railway.app/api/contato',
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, remetente, mensagem, destinatarios }),
       },
     )
