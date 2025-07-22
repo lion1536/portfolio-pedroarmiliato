@@ -1,22 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const nodemailer = require('nodemailer')
-require('dotenv').config()
-
-router.use((req, res, next) => {
-  console.log(`[${req.method}] ${req.originalUrl}`)
-  next()
-})
-
-router.get('/contato', (req, res) => {
-  res.json({ message: 'Rota GET /api/contato está funcionando!' })
-})
 
 router.post('/contato', async (req, res) => {
-  const { nome, email, mensagem } = req.body
+  const { nome, email, mensagem, destinatarios } = req.body
 
   if (!nome || !email || !mensagem) {
     return res.status(400).json({ error: 'Preencha todos os campos' })
+  }
+
+  let toEmails = process.env.EMAIL_USER
+  if (destinatarios) {
+    if (Array.isArray(destinatarios)) {
+      toEmails = destinatarios.join(', ')
+    } else if (typeof destinatarios === 'string') {
+      toEmails = destinatarios
+    }
   }
 
   const transporter = nodemailer.createTransport({
@@ -27,18 +26,10 @@ router.post('/contato', async (req, res) => {
     },
   })
 
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error('Erro ao verificar conexão SMTP:', error)
-    } else {
-      console.log('Servidor SMTP está pronto para enviar e-mails')
-    }
-  })
-
   try {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      to: toEmails,
       replyTo: `${nome} <${email}>`,
       subject: 'Nova mensagem do formulário de contato',
       text: `Mensagem de: ${nome} (${email})\n\n${mensagem}`,
@@ -46,15 +37,8 @@ router.post('/contato', async (req, res) => {
 
     res.json({ message: 'Mensagem enviada com sucesso!' })
   } catch (error) {
-    console.error('❌ ERRO AO ENVIAR EMAIL:')
-    console.error('Mensagem:', error.message)
-    console.error('Nome:', error.name)
-    console.error('Código:', error.code)
-    console.error('Stack:', error.stack)
-    if (error.response) {
-      console.error('Resposta SMTP:', error.response)
-    }
-    res.status(500).json({ error: 'Erro interno ao enviar a mensagem' })
+    console.error('Erro ao enviar e-mail:', error)
+    res.status(500).json({ error: 'Erro ao enviar mensagem' })
   }
 })
 
