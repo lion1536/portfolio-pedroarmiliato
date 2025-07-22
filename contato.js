@@ -2,6 +2,11 @@ const form = document.getElementById('contatoForm')
 const view = document.getElementById('status')
 const textarea = form.mensagem
 
+function validarEmail(email) {
+  const re = /\S+@\S+\.\S+/
+  return re.test(email)
+}
+
 textarea.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault()
@@ -13,22 +18,49 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault()
 
   const nome = form.nome.value.trim()
-  const email = form.email.value.trim()
+  const remetente = form.remetente.value.trim()
   const mensagem = form.mensagem.value.trim()
   const destinatariosRaw = form.destinatarios.value.trim()
 
-  if (!nome || !email || !mensagem) {
+  if (!nome || !remetente || !mensagem) {
     view.textContent = 'Por favor, preencha todos os campos obrigatórios.'
     return
   }
 
-  // Se houver destinatários, transforma em array de strings sem espaços extras
-  let destinatarios = undefined
+  if (!validarEmail(remetente)) {
+    view.textContent = 'Por favor, informe um email de remetente válido.'
+    return
+  }
+
+  // Destinatários: se tiver, transforma em array, valida e filtra o remetente
+  let destinatarios = []
   if (destinatariosRaw) {
     destinatarios = destinatariosRaw
       .split(',')
       .map((email) => email.trim())
       .filter((email) => email.length > 0)
+
+    // Validar emails dos destinatários
+    for (const email of destinatarios) {
+      if (!validarEmail(email)) {
+        view.textContent = `Email inválido na lista de destinatários: ${email}`
+        return
+      }
+    }
+
+    // Remover remetente da lista de destinatários para evitar enviar para si mesmo
+    destinatarios = destinatarios.filter(
+      (email) => email.toLowerCase() !== remetente.toLowerCase(),
+    )
+
+    if (destinatarios.length === 0) {
+      view.textContent =
+        'A lista de destinatários não pode conter somente seu próprio email.'
+      return
+    }
+  } else {
+    view.textContent = 'Por favor, informe ao menos um destinatário.'
+    return
   }
 
   view.textContent = 'Enviando...'
@@ -42,13 +74,14 @@ form.addEventListener('submit', async (event) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nome, email, mensagem, destinatarios }),
+        body: JSON.stringify({ nome, remetente, mensagem, destinatarios }),
       },
     )
 
     if (response.ok) {
       view.textContent = 'Mensagem enviada com sucesso!'
       form.reset()
+      form.nome.focus()
     } else {
       const data = await response.json()
       view.textContent = 'Erro: ' + (data.error || 'Erro ao enviar mensagem')
