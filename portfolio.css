@@ -2,12 +2,13 @@
   --bg: #121212;
   --text: #f5f5f5;
   --accent: #03c988;
+  --accents: #40f7b8;
   --muted: #aaaaaa;
   --box-bg: #1e1e1e;
   --highlight: #64ab50;
   --shadow: rgba(0, 0, 0, 0.2);
   --radius: 12px;
-  --font: "Segoe UI", Tahoma, sans-serif;
+  --font: "Poppins", sans-serif;
 }
 
 * {
@@ -16,7 +17,9 @@
   box-sizing: border-box;
 }
 
+html,
 body {
+  overflow-x: hidden; /* Corrigido: só aqui */
   font-family: var(--font);
   background-color: var(--bg);
   color: var(--text);
@@ -50,7 +53,8 @@ nav a {
 }
 
 nav a:hover {
-  color: var(--accent);
+  color: var(--accents);
+  text-decoration: underline;
 }
 
 .container {
@@ -63,7 +67,10 @@ nav a:hover {
 .galeria {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* minwidth menor */
 }
 
 .projeto {
@@ -89,6 +96,7 @@ nav a:hover {
   margin-top: 0.5rem;
   color: var(--highlight);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .projeto a:hover {
@@ -103,7 +111,10 @@ nav a:hover {
 
 .grid-imagens {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* minwidth menor */
   gap: 1.5rem;
 }
 
@@ -117,6 +128,7 @@ nav a:hover {
 
 .imagem-projeto img {
   width: 100%;
+  max-width: 100%;
   height: auto;
   display: block;
   object-fit: cover;
@@ -151,10 +163,11 @@ section h2 {
 a {
   color: var(--accent);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #40f7b8;
+  color: #1abc9c;
   text-decoration: underline;
 }
 
@@ -164,7 +177,7 @@ a:hover {
   height: auto;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid var(--cor-primaria);
+  border: 4px solid var(--accent);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }

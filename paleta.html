@@ -14,7 +14,7 @@
         <a href="sobre.html">Sobre Mim</a>
         <a href="portfolio.html">Portfólio</a>
         <a href="contato.html">Contato</a>
-        <a href="paleta.html" aria-current="page">Paleta de Cores</a>
+        <a href="paleta.html">Paleta de Cores</a>
         <a href="mapa.html">Mapa do Site</a>
         <a href="documentacao.html">Documentação</a>
       </nav>
@@ -42,10 +42,10 @@
 
           <!-- Cor 2 -->
           <div class="cor">
-            <div class="cor-color" style="background-color: #1abc9c"></div>
-            <p class="cor-nome">Azul Vivo</p>
-            <p class="cor-hex">#1abc9c</p>
-            <button class="copy-btn" data-hex="#1abc9c">Copiar</button>
+            <div class="cor-color" style="background-color: #40f7b8"></div>
+            <p class="cor-nome">Verde Menta</p>
+            <p class="cor-hex">#40f7b8</p>
+            <button class="copy-btn" data-hex="#40f7b8">Copiar</button>
           </div>
 
           <!-- Cor 3 -->
@@ -74,6 +74,14 @@
             <p class="cor-hex">#64ab50</p>
             <button class="copy-btn" data-hex="#64ab50">Copiar</button>
           </div>
+
+          <!-- Cor 6 -->
+          <div class="cor">
+            <div class="cor-color" style="background-color: #333"></div>
+            <p class="cor-nome">Cinza Escuro</p>
+            <p class="cor-hex">#333333</p>
+            <button class="copy-btn" data-hex="#333333">Copiar</button>
+          </div>
         </div>
       </section>
     </main>
@@ -83,21 +91,21 @@
     </footer>
 
     <script>
-      document.querySelectorAll('.copy-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const hex = btn.getAttribute('data-hex')
+      document.querySelectorAll(".copy-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const hex = btn.getAttribute("data-hex");
           navigator.clipboard.writeText(hex).then(() => {
-            btn.textContent = 'Copiado!'
-            btn.disabled = true
-            btn.classList.add('copiado')
+            btn.textContent = "Copiado!";
+            btn.disabled = true;
+            btn.classList.add("copiado");
             setTimeout(() => {
-              btn.textContent = 'Copiar'
-              btn.disabled = false
-              btn.classList.remove('copiado')
-            }, 1500)
-          })
-        })
-      })
+              btn.textContent = "Copiar";
+              btn.disabled = false;
+              btn.classList.remove("copiado");
+            }, 1500);
+          });
+        });
+      });
     </script>
   </body>
 </html>

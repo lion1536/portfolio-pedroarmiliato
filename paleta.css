@@ -2,8 +2,9 @@
   --bg: #121212;
   --text: #f5f5f5;
   --accent: #03c988;
+  --accents: #40f7b8;
   --highlight: #64ab50;
-  --font: 'Segoe UI', Tahoma, sans-serif;
+  --font: "Poppins", sans-serif;
   --shadow: rgba(0, 0, 0, 0.2);
 }
 
@@ -41,9 +42,9 @@ nav a {
   transition: color 0.3s;
 }
 
-nav a:hover,
-nav a[aria-current='page'] {
-  color: var(--accent);
+a:hover {
+  color: var(--accents);
+  text-decoration: underline;
 }
 
 .container {
